@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Tender</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            <a href="index.html" class="logo">FARM TECH</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+                <a href="upload-tender.html">Upload Tender</a>
+                <a href="bid.html">Bid on Tender</a>
+            </div>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Upload Your Tender</h1>
+            <p>Share your tender details with potential bidders.</p>
+        </div>
+    </section>
+    <div class="form-container">
+        <form id="tender-form">
+            <input type="text" id="tender-title" name="title" placeholder="Tender Title" required>
+            <textarea id="tender-details" name="details" placeholder="Tender Details" required></textarea>
+            <input type="number" id="tender-value" name="value" placeholder="Tender Value" required>
+            <input type="url" id="tender-image-url" name="imageUrl" placeholder="Image URL" required> <!-- New field for image URL -->
+            <button type="submit" class="btn btn-primary">Upload Tender</button>
+        </form>
+        <div id="response-message"></div> <!-- Div to display response messages -->
+    </div>
+    <footer>
+        <div class="footer-content">
+            <h3>About Us</h3>
+            <p>Connecting farmers with companies for sustainable agriculture and fair contracts.</p>
+        </div>
+        <div class="copyright">
+            &copy; 2025 ContractFarming. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+    document.getElementById('tender-form').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent the default form submission
+        const formData = new FormData(e.target);
+        const tenderData = {
+            title: formData.get('title'),
+            details: formData.get('details'),
+            value: formData.get('value'),
+            imageUrl: formData.get('imageUrl') // Include image URL
+        };
+
+        try {
+            const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(tenderData)
+            });
+
+            const responseMessage = document.getElementById('response-message');
+
+            if (res.ok) {
+                responseMessage.textContent = 'Tender uploaded successfully!';
+                responseMessage.style.color = 'green';
+                e.target.reset(); // Reset the form after successful submission
+            } else {
+                const errorData = await res.json();
+                responseMessage.textContent = `Error: ${errorData.message || 'Failed to upload tender.'}`;
+                responseMessage.style.color = 'red';
+            }
+        } catch (error) {
+            const responseMessage = document.getElementById('response-message');
+            responseMessage.textContent = `Error: ${error.message}`;
+            responseMessage.style.color = 'red';
+        }
+    });
+    </script>
+</body>
+</html>

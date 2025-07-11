@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head><title>Farmer Dashboard</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+  }
+  header, footer {
+    background-color: #1e8a3b;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  nav {
+    background-color: #1e8a3b;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  nav .nav-links a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+  }
+  nav .nav-links a:hover {
+    text-decoration: underline;
+  }
+  .container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  h2, h3 {
+    color: #1e8a3b;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  input, textarea, select, button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  button {
+    background-color: #1e3a8a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+  button:hover {
+    background-color: #374151;
+  }
+  .card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 6px;
+    background-color: #fafafa;
+    margin-top: 15px;
+  }
+</style>
+</head>
+<body>
+<header><h1>Farmer Dashboard</h1></header>
+    <nav class="nav-bar">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </nav>
+<div class="container">
+  <h2>Available Tenders</h2>
+  <div id="tenders-list" class="card">Loading tenders...</div>
+</div>
+<footer><p>&copy; 2025 Contract Farming</p></footer>
+</body>
+</html>

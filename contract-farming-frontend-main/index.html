@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Farming </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fas fa-leaf"></i>
+                <img src="ASSETS/img/logo.jpg" height="50" width="60">
+                <span> FARM TECH </span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+                <a href="#features">About</a>
+                <a href="#contact">Contact</a> 
+            </div>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Connecting Farmers with Opportunities</h1>
+            <p>Join our platform to find fair contracts, grow your business, and build sustainable partnerships in agriculture.</p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+                <a href="#" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features"> <!-- Added ID here -->
+        <div class="section-title">
+            <h2>Why Choose Contract Farming?</h2>
+            <p>Our platform provides the tools and connections you need to succeed in modern agriculture</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <img src="ASSETS/img/handshake.jpg" alt="handshake" width="100" height="100">
+            <h3>Fair Contracts</h3>
+            <p>Transparent agreements that benefit both farmers and companies with clear terms and pricing.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <img src="ASSETS/img/network.png" alt="network" width="100" height="100">
+            <h3>Market Access</h3>
+            <p>Connect directly with buyers and secure better prices for your produce.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <img src="ASSETS/img/marketing.png" alt="marketing" width="100" height="100">
+            <h3>Risk Reduction</h3>
+            <p>Minimize market fluctuations with guaranteed contracts and stable income.</p>
+        </div>
+    </section>
+
+    <section class="contracts">
+        <div class="section-title">
+            <h2>Available Contracts</h2>
+            <p>Browse through current opportunities from trusted companies</p>
+        </div>
+
+        <div class="contract-grid">
+            
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to Grow Your Farming Business?</h2>
+        <p>Join hundreds of farmers and companies already benefiting from our contract farming platform.</p>
+        <div class="hero-buttons">
+            <a href="register.html" class="btn btn-cta">Sign Up Now</a>
+            <a href="#" class="btn btn-outline">Contact Sales</a>
+        </div>
+    </section>
+
+    <footer id="contact"> <!-- Added ID here -->
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Connecting farmers with companies for sustainable agriculture and fair contracts.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="#">How It Works</a>
+                <a href="#">Pricing</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> ATMA RAM SANATAN DHARMA COLLEGE</p>
+                <p><i class="fas fa-phone"></i> +91 99999999999 </p>
+                <p><i class="fas fa-envelope"></i> info@contractfarming.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 ContractFarming. All rights reserved.
+        </div>
+    </footer>    
+
+    <script>
+    async function fetchAndDisplayTenders() {
+        const container = document.querySelector('.contract-grid');
+        const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders');
+        const tenders = await res.json();
+
+        container.innerHTML = tenders.map(t => `
+            <div class="contract-card">
+                <div class="contract-image" style="background-image: url('${t.imageUrl}');"></div> <!-- Display the image -->
+                <div class="contract-details">
+                    <h3>${t.title}</h3>
+                    <p>${t.details}</p>
+                    <span>Value: ₹${t.value}</span><br/>
+                    <a href="login.html?tenderId=${t._id}" class="btn btn-primary">Bid Now</a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    window.addEventListener('DOMContentLoaded', fetchAndDisplayTenders);
+    </script>
+</body>
+</html>
