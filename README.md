@@ -28,8 +28,6 @@ A complete web application that connects **Companies** and **Farmers** through a
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
-- 
----
 
 ## 🙌 Contributors
 
