@@ -93,12 +93,12 @@ document.getElementById('tender-form').addEventListener('submit', async (e) => {
     const formData = new FormData(e.target);
     const tenderData = {
         title: formData.get('title'),
-        details: formData.get('details'),
+        description: formData.get('details'),
         value: formData.get('value'),
-        imageUrl: formData.get('imageUrl') // Include image URL
+        imageUrl: formData.get('imageUrl')
     };
 
-    const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders', {
+    const res = await fetch('https://contract-farming-backend.onrender.com/api/tender', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tenderData)
@@ -106,12 +106,43 @@ document.getElementById('tender-form').addEventListener('submit', async (e) => {
 
     if (res.ok) {
         alert('Tender uploaded successfully!');
-        // Fetch and display updated tenders on the index page
-        fetchAndDisplayTenders();
+        loadTenders();
     } else {
         alert('Error uploading tender');
     }
 });
+
+async function loadTenders() {
+    try {
+        const res = await fetch('https://contract-farming-backend.onrender.com/api/tender');
+        const tenders = await res.json();
+
+        const list = document.getElementById('bids-list');
+        list.innerHTML = '';
+
+        if (tenders.length === 0) {
+            list.innerText = 'No tenders uploaded yet.';
+            return;
+        }
+
+        tenders.forEach(tender => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `
+                <h3>${tender.title}</h3>
+                <p>${tender.description}</p>
+                <p><strong>Value:</strong> ₹${tender.value}</p>
+                <img src="${tender.imageUrl}" style="max-width: 100%; border-radius: 6px; margin-top: 10px;">
+            `;
+            list.appendChild(div);
+        });
+    } catch (err) {
+        console.error(err);
+        document.getElementById('bids-list').innerText = 'Failed to load tenders.';
+    }
+}
+
+loadTenders();
 </script>
 </body>
 </html>
