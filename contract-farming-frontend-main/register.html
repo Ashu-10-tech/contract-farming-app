@@ -1,116 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Contract Farming Web App</title>
-  <nav class="nav-bar">
-    <a href="index.html" class="nav-link">Home</a>
-  </nav>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-<header class="header">
-  <h1 class="site-title">🌳 Contract Farming Web App</h1>
-</header>
+  <header class="header">
+    <h1 class="site-title">🌳 Contract Farming Web App</h1>
+    <nav class="nav-bar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="login.html" class="nav-link">Login</a>
+    </nav>
+  </header>
 
-<main class="auth-page" style="background-image: url('images/register-bg.jpg'); background-size: cover; background-position: center;">
-  <div class="auth-card">
-    <h2 class="auth-title">Create Account</h2>
-    <form class="auth-form" novalidate>
-      <select name="role" required>
-        <option value="farmer">Farmer</option>
-        <option value="company">Company</option>
-      </select>
-      <input type="text" class="input-field" placeholder="👤 Username" name="username" required aria-label="Username" />
-      <input type="email" class="input-field" placeholder="📧 Email" name="email" required aria-label="Email" />
-      <input type="password" class="input-field" placeholder="🔒 Password" name="password" required aria-label="Password" />
-      <input type="password" class="input-field" placeholder="🔒 Confirm Password" name="confirm-password" required aria-label="Confirm Password" />
-      <button type="submit" class="auth-button">Register</button>
-      <p class="auth-text">Already have an account? <a href="login.html" class="auth-link">Login</a></p>
-    </form>
-  </div>
-</main>
+  <main class="auth-page" style="background-image: url('images/register-bg.jpg');">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Join our farming community today</p>
+      </div>
 
-<footer class="footer">
-  <p>&copy; 2025 🌾 Contract Farming Web App. All rights reserved.</p>
-</footer>
+      <form class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="role">I am a:</label>
+          <select id="role" name="role" required class="input-field">
+            <option value="" disabled selected>Select your role</option>
+            <option value="farmer">Farmer</option>
+            <option value="company">Company Representative</option>
+          </select>
+        </div>
 
-<style>
-  body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  .header {
-    background-color: #ffffff;
-    padding: 20px;
-    text-align: center;
-  }
-  .auth-page {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .auth-card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  .auth-title {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  .input-field {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  .auth-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .auth-button:hover {
-    background-color: #45a049;
-  }
-  .footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f1f1f1;
-    width: 100%;
-  }
-</style>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-container">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" id="username" class="input-field" placeholder="Enter username" name="username" required
+              aria-label="Username" />
+          </div>
+        </div>
 
-<script>
-document.querySelector('.auth-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const username = e.target.username.value;
-  const email = e.target.email.value;
-  const password = e.target.password.value;
-  const role = e.target.role.value;
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-container">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="email" class="input-field" placeholder="Enter email" name="email" required
+              aria-label="Email" />
+          </div>
+        </div>
 
-  const res = await fetch('https://contract-farming-backend.onrender.com/api/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, email, password, role })
-  });
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-container">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="password" class="input-field" placeholder="Enter password" name="password"
+              required aria-label="Password" />
+            <i class="fas fa-eye password-toggle" onclick="togglePassword('password')"></i>
+          </div>
+          <div class="password-strength">
+            <div class="strength-bar"></div>
+            <span class="strength-text"></span>
+          </div>
+        </div>
 
-  const data = await res.json();
-  if (res.ok) {
-    alert('Registered successfully!');
-    window.location.href = 'login.html';
-  } else {
-    alert(data.error || 'Error during registration');
-  }
-});
-</script>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <div class="input-container">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="confirm-password" class="input-field" placeholder="Confirm password"
+              name="confirm-password" required aria-label="Confirm Password" />
+            <i class="fas fa-eye password-toggle" onclick="togglePassword('confirm-password')"></i>
+          </div>
+          <div id="password-match" class="validation-message"></div>
+        </div>
+
+        <div class="form-group terms-group">
+          <input type="checkbox" id="terms" name="terms" required>
+          <label for="terms">I agree to the <a href="#" class="terms-link">Terms and Conditions</a></label>
+        </div>
+
+        <button type="submit" class="auth-button">
+          <span class="button-text">Register</span>
+          <i class="fas fa-spinner fa-spin loading-icon"></i>
+        </button>
+
+        <div class="auth-footer">
+          <p>Already have an account? <a href="login.html" class="auth-link">Login here</a></p>
+          <div class="social-login">
+            <p>Or register with:</p>
+            <div class="social-icons">
+              <a href="#" class="social-icon google"><i class="fab fa-google"></i></a>
+              <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 🌾 Contract Farming Web App. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact Us</a>
+    </div>
+  </footer>
+
+  <style>
+    :root {
+      --primary-color: #4CAF50;
+      --primary-hover: #45a049;
+      --secondary-color: #6c757d;
+      --light-color: #f8f9fa;
+      --dark-color: #343a40;
+      --danger-color: #dc3545;
+      --success-color: #28a745;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    .header {
+      background-color: #ffffff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .site-title {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    .nav-bar {
+      display: flex;
+      gap: 1.5rem;
+      background-color: #ffffff;
+      padding: 10px 20px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--dark-color);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      color: var(--primary-color);
+    }
+
+    .auth-page {
+      min-height: calc(100vh - 120px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .auth-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 500px;
+      transition: var(--transition);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .auth-title {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+    }
+
+    .auth-subtitle {
+      color: var(--secondary-color);
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark-color);
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary-color);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 15px 12px 40px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+
+    select.input-field {
+      padding: 12px 15px;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 1rem;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary-color);
+      cursor: pointer;
+    }
+
+    .password-strength {
+      margin-top: 0.5rem;
+      height: 5px;
+      background-color: #e9ecef;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .strength-bar {
+      height: 100%;
+      width: 0;
+      background-color: var(--danger-color);
+      transition: var(--transition);
+    }
+
+    .strength-text {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--secondary-color);
+      margin-top: 0.25rem;
+    }
+
+    .validation-message {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      color: var(--danger-color);
+      min-height: 1rem;
+    }
+
+    .terms-group {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+    }
+
+    .terms-group input {
+      margin-right: 0.5rem;
+    }
+
+    .terms-link {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .terms-link:hover {
+      text-decoration: underline;
+    }
+
+    .auth-button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .auth-button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .loading-icon {
+      display: none;
+    }
+
+    .auth-button.loading .button-text {
+      display: none;
+    }
+
+    .auth-button.loading .loading-icon {
+      display: block;
+    }
+
+    .auth-footer {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--secondary-color);
+    }
+
+    .auth-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .auth-link:hover {
+      text-decoration: underline;
+    }
+
+    .social-login {
+      margin-top: 1.5rem;
+    }
+
+    .social-login p {
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .social-login p::before,
+    .social-login p::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background-color: #ddd;
+    }
+
+    .social-login p::before {
+      left: 0;
+    }
+
+    .social-login p::after {
+      right: 0;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .social-icon.google {
+      background-color: #db4437;
+    }
+
+    .social-icon.facebook {
+      background-color: #4267B2;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: var(--light-color);
+      color: var(--secondary-color);
+    }
+
+    .footer-links {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .nav-bar {
+        margin-top: 1rem;
+      }
+
+      .auth-card {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .auth-page {
+        padding: 1rem;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    // Password strength indicator
+    document.getElementById('password').addEventListener('input', function (e) {
+      const password = e.target.value;
+      const strengthBar = document.querySelector('.strength-bar');
+      const strengthText = document.querySelector('.strength-text');
+      let strength = 0;
+
+      // Check for length
+      if (password.length > 0) strength += 1;
+      if (password.length >= 8) strength += 1;
+
+      // Check for uppercase, lowercase, numbers, special chars
+      if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1;
+      if (password.match(/([0-9])/)) strength += 1;
+      if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1;
+
+      // Update UI
+      switch (strength) {
+        case 0:
+          strengthBar.style.width = '0%';
+          strengthBar.style.backgroundColor = 'var(--danger-color)';
+          strengthText.textContent = '';
+          break;
+        case 1:
+          strengthBar.style.width = '20%';
+          strengthBar.style.backgroundColor = 'var(--danger-color)';
+          strengthText.textContent = 'Weak';
+          break;
+        case 2:
+          strengthBar.style.width = '40%';
+          strengthBar.style.backgroundColor = '#ff9800';
+          strengthText.textContent = 'Fair';
+          break;
+        case 3:
+          strengthBar.style.width = '60%';
+          strengthBar.style.backgroundColor = '#ffc107';
+          strengthText.textContent = 'Good';
+          break;
+        case 4:
+          strengthBar.style.width = '80%';
+          strengthBar.style.backgroundColor = '#8bc34a';
+          strengthText.textContent = 'Strong';
+          break;
+        case 5:
+          strengthBar.style.width = '100%';
+          strengthBar.style.backgroundColor = 'var(--success-color)';
+          strengthText.textContent = 'Very Strong';
+          break;
+      }
+    });
+
+    // Password match validation
+    document.getElementById('confirm-password').addEventListener('input', function (e) {
+      const password = document.getElementById('password').value;
+      const confirmPassword = e.target.value;
+      const matchMessage = document.getElementById('password-match');
+
+      if (confirmPassword.length === 0) {
+        matchMessage.textContent = '';
+      } else if (password !== confirmPassword) {
+        matchMessage.textContent = 'Passwords do not match';
+      } else {
+        matchMessage.textContent = 'Passwords match!';
+        matchMessage.style.color = 'var(--success-color)';
+      }
+    });
+
+    // Toggle password visibility
+    function togglePassword(fieldId) {
+      const field = document.getElementById(fieldId);
+      const icon = field.nextElementSibling;
+
+      if (field.type === 'password') {
+        field.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        field.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
+    // Form submission with loading state
+    document.querySelector('.auth-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const button = form.querySelector('.auth-button');
+      const password = form.password.value;
+      const confirmPassword = form['confirm-password'].value;
+
+      // Client-side validation
+      if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+
+      if (!form.terms.checked) {
+        alert('You must agree to the terms and conditions');
+        return;
+      }
+
+      // Show loading state
+      button.classList.add('loading');
+
+      try {
+        const formData = {
+          username: form.username.value,
+          email: form.email.value,
+          password: password,
+          role: form.role.value
+        };
+
+        const res = await fetch('https://contract-farming-backend.onrender.com/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert('Registered successfully!');
+          window.location.href = 'login.html';
+        } else {
+          alert(data.error || 'Error during registration');
+        }
+      } catch (error) {
+        alert('Network error. Please try again later.');
+        console.error('Registration error:', error);
+      } finally {
+        button.classList.remove('loading');
+      }
+    });
+  </script>
 </body>
+
 </html>
