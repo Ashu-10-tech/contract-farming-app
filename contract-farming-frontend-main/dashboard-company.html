@@ -1,147 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Company Dashboard</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-    }
-    header, footer {
-      background-color: #1e8a3b;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    h2, h3 {
-      color: #1e8a3b;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    input, textarea, button {
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #1e8a3b;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-    }
-    button:hover {
-      background-color: #374151;
-    }
-    .card {
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 6px;
-      background-color: #fafafa;
-      margin-top: 15px;
-    }
-    img {
-      max-width: 100%;
-      border-radius: 6px;
-      margin-top: 10px;
-    }
-  </style>
+    <title>Company Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+        }
+        header, footer {
+            background-color: #1e8a3b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #1e8a3b;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        nav .nav-links a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        nav .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h2, h3 {
+            color: #1e8a3b;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, textarea, select, button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #1e8a3b;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #374151;
+        }
+        .card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #fafafa;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-  <header><h1>Company Dashboard</h1></header>
-
-  <div class="container">
+<header><h1>Company Dashboard</h1></header>
+<div class="container">
     <h2>Upload Tender</h2>
     <form id="tender-form">
-      <input type="text" name="title" placeholder="Tender Title" required>
-      <textarea name="details" placeholder="Details" required></textarea>
-      <input type="number" name="value" placeholder="Value" required>
-      <input type="url" name="imageUrl" placeholder="Image URL" required>
-      <button type="submit">Upload</button>
+        <input type="text" name="title" placeholder="Tender Title" required>
+        <textarea name="details" placeholder="Details" required></textarea>
+        <input type="number" name="value" placeholder="Value" required>
+        <input type="url" name="imageUrl" placeholder="Image URL" required> <!-- New field for image URL -->
+        <button type="submit">Upload</button>
     </form>
-
     <h2>Your Tender Bids</h2>
     <div id="bids-list" class="card">Loading bids...</div>
-  </div>
+</div>
+<footer><p>&copy; 2025 Contract Farming</p></footer>
 
-  <footer><p>&copy; 2025 Contract Farming</p></footer>
-
-  <script>
-    document.getElementById('tender-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const tenderData = {
+<script>
+document.getElementById('tender-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const tenderData = {
         title: formData.get('title'),
-        description: formData.get('details'),
+        details: formData.get('details'),
         value: formData.get('value'),
-        imageUrl: formData.get('imageUrl')
-      };
+        imageUrl: formData.get('imageUrl') // Include image URL
+    };
 
-      try {
-        const res = await fetch('https://contract-farming-backend.onrender.com/api/tender', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(tenderData)
-        });
-
-        if (res.ok) {
-          alert('Tender uploaded successfully!');
-          loadTenders();
-        } else {
-          alert('Error uploading tender');
-        }
-      } catch (error) {
-        console.error('Upload error:', error);
-        alert('Failed to upload tender');
-      }
+    const res = await fetch('https://contract-farming-backend.onrender.com/api/tenders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tenderData)
     });
 
-    async function loadTenders() {
-      try {
-        const res = await fetch('https://contract-farming-backend.onrender.com/api/tender');
-        const tenders = await res.json();
-
-        const list = document.getElementById('bids-list');
-        list.innerHTML = '';
-
-        if (!Array.isArray(tenders) || tenders.length === 0) {
-          list.innerText = 'No tenders uploaded yet.';
-          return;
-        }
-
-        tenders.forEach(tender => {
-          const div = document.createElement('div');
-          div.className = 'card';
-          div.innerHTML = `
-            <h3>${tender.title}</h3>
-            <p>${tender.description}</p>
-            <p><strong>Value:</strong> ₹${tender.value}</p>
-            <img src="${tender.imageUrl}" alt="Tender Image">
-          `;
-          list.appendChild(div);
-        });
-      } catch (err) {
-        console.error(err);
-        document.getElementById('bids-list').innerText = 'Failed to load tenders.';
-      }
+    if (res.ok) {
+        alert('Tender uploaded successfully!');
+        // Fetch and display updated tenders on the index page
+        fetchAndDisplayTenders();
+    } else {
+        alert('Error uploading tender');
     }
-
-    loadTenders();
-  </script>
+});
+</script>
 </body>
 </html>

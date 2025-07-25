@@ -1,95 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Farmer Dashboard</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-    }
-    header, footer {
-      background-color: #1e8a3b;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #1e8a3b;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-    }
-    nav .nav-links a {
-      color: white;
-      margin-left: 15px;
-      text-decoration: none;
-    }
-    nav .nav-links a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    h2, h3 {
-      color: #1e8a3b;
-    }
-    .card {
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 6px;
-      background-color: #fafafa;
-      margin-top: 15px;
-    }
-  </style>
+<html>
+<head><title>Farmer Dashboard</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+  }
+  header, footer {
+    background-color: #1e8a3b;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  nav {
+    background-color: #1e8a3b;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  nav .nav-links a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+  }
+  nav .nav-links a:hover {
+    text-decoration: underline;
+  }
+  .container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  h2, h3 {
+    color: #1e8a3b;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  input, textarea, select, button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  button {
+    background-color: #1e3a8a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+  button:hover {
+    background-color: #374151;
+  }
+  .card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 6px;
+    background-color: #fafafa;
+    margin-top: 15px;
+  }
+</style>
 </head>
 <body>
-  <header><h1>Farmer Dashboard</h1></header>
-
-  <div class="container">
-    <h2>Available Tenders</h2>
-    <div id="tenders-list" class="card">Loading tenders...</div>
-  </div>
-
-  <footer><p>&copy; 2025 Contract Farming</p></footer>
-
-  <script>
-    fetch('https://contract-farming-backend.onrender.com/api/tender')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('tenders-list');
-        container.innerHTML = '';
-        
-        if (!Array.isArray(data) || data.length === 0) {
-          container.innerText = 'No tenders available.';
-          return;
-        }
-
-        data.forEach(tender => {
-          const div = document.createElement('div');
-          div.className = 'card';
-          div.innerHTML = `
-            <h3>${tender.title}</h3>
-            <p>${tender.description}</p>
-            <small>Deadline: ${tender.deadline}</small>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(error => {
-        console.error('Failed to load tenders:', error);
-        document.getElementById('tenders-list').innerText = 'Failed to load tenders.';
-      });
-  </script>
+<header><h1>Farmer Dashboard</h1></header>
+<div class="container">
+  <h2>Available Tenders</h2>
+  <div id="tenders-list" class="card">Loading tenders...</div>
+</div>
+<footer><p>&copy; 2025 Contract Farming</p></footer>
 </body>
 </html>
